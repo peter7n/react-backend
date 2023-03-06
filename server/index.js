@@ -8,6 +8,7 @@ const corsOptions ={
    credentials: true,            //access-control-allow-credentials:true
    optionSuccessStatus: 200,
 };
+const http = require("http");
 
 const dataPath = './data/data.json';
 const app = express();
@@ -43,6 +44,11 @@ app.post("/post-data/:id", (req, res) => {
 	res.send(existingData);
 });
 
-app.listen(PORT, () => {
+const httpServer = http.createServer(app);
+httpServer.listen(PORT, () => {
 	console.log(`Server listening on ${PORT}`);
 });
+
+// app.listen(PORT, () => {
+// 	console.log(`Server listening on ${PORT}`);
+// });
