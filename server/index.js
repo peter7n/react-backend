@@ -8,7 +8,11 @@ const corsOptions ={
    credentials: true,            //access-control-allow-credentials:true
    optionSuccessStatus: 200,
 };
-const http = require("http");
+// const http = require("http");
+const https = require("https");
+const privateKey = fs.readFileSync('/etc/pki/tls/private/localhost.key', 'utf8');
+const certificate = fs.readFileSync('/etc/pki/tls/certs/localhost.crt', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
 
 const dataPath = './data/data.json';
 const app = express();
@@ -44,9 +48,14 @@ app.post("/post-data/:id", (req, res) => {
 	res.send(existingData);
 });
 
-const httpServer = http.createServer(app);
-httpServer.listen(PORT, () => {
-	console.log(`Server listening on ${PORT}`);
+// const httpServer = http.createServer(app);
+// httpServer.listen(PORT, () => {
+// 	console.log(`Server listening on ${PORT}`);
+// });
+
+const httpsServer = https.createServer(credentials, app);
+httpsServer.listen(3000, () => {
+	console.log('Server listening on 3000');
 });
 
 // app.listen(PORT, () => {
