@@ -12,7 +12,8 @@ const corsOptions ={
 const https = require("https");
 const privateKey = fs.readFileSync('/etc/pki/tls/private/masterptn.org.key', 'utf8');
 const certificate = fs.readFileSync('/etc/pki/tls/certs/masterptn.org.crt', 'utf8');
-const credentials = {key: privateKey, cert: certificate};
+const ca = fs.readFileSync('/etc/pki/tls/certs/chain.crt', 'utf8');
+const credentials = {key: privateKey, cert: certificate, ca: ca};
 
 const dataPath = './data/data.json';
 const app = express();
