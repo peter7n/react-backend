@@ -10,8 +10,8 @@ const corsOptions ={
 };
 // const http = require("http");
 const https = require("https");
-const privateKey = fs.readFileSync('/etc/pki/tls/private/localhost.key', 'utf8');
-const certificate = fs.readFileSync('/etc/pki/tls/certs/localhost.crt', 'utf8');
+const privateKey = fs.readFileSync('/etc/pki/tls/private/masterptn.org.key', 'utf8');
+const certificate = fs.readFileSync('/etc/pki/tls/certs/masterptn.org.crt', 'utf8');
 const credentials = {key: privateKey, cert: certificate};
 
 const dataPath = './data/data.json';
