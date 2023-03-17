@@ -12,10 +12,10 @@ const corsOptions ={
 const https = require("https");
 const privateKey = fs.readFileSync('/etc/pki/tls/private/masterptn.org.key', 'utf8');
 const certificate = fs.readFileSync('/etc/pki/tls/certs/masterptn.org.crt', 'utf8');
-const bundle = [fs.readFileSync('/etc/pki/tls/certs/chain.crt', 'utf8'), fs.readFileSync('/etc/pki/tls/certs/fullchain.crt', 'utf8')];
-const credentials = {ca: bundle, key: privateKey, cert: certificate};
+// const bundle = [fs.readFileSync('/etc/pki/tls/certs/chain.crt', 'utf8'), fs.readFileSync('/etc/pki/tls/certs/fullchain.crt', 'utf8')];
+const credentials = {key: privateKey, cert: certificate};
 
-const dataPath = './data/data.json';
+const dataPath = '../data/data.json';
 const app = express();
 
 const getData = () => {
