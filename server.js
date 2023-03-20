@@ -11,9 +11,9 @@ const corsOptions ={
 };
 // const http = require("http");
 const https = require("https");
-const privateKey = '';
-const certificate = '';
-const credentials= {};
+let privateKey = '';
+let certificate = '';
+let credentials= {};
 if (!devMode) {
 	privateKey = fs.readFileSync('/etc/pki/tls/private/masterptn.org.key', 'utf8');
 	certificate = fs.readFileSync('/etc/pki/tls/certs/masterptn.org.crt', 'utf8');
@@ -21,7 +21,7 @@ if (!devMode) {
 }
 
 
-const dataPath = '../data/data.json';
+const dataPath = './data/data.json';
 const app = express();
 
 const getData = () => {
