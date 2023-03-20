@@ -11,14 +11,17 @@ const corsOptions ={
 };
 // const http = require("http");
 const https = require("https");
-if (devMode === false) {
-	const privateKey = fs.readFileSync('/etc/pki/tls/private/masterptn.org.key', 'utf8');
-	const certificate = fs.readFileSync('/etc/pki/tls/certs/masterptn.org.crt', 'utf8');
-	const credentials = {key: privateKey, cert: certificate};
+const privateKey = '';
+const certificate = '';
+const credentials= {};
+if (!devMode) {
+	privateKey = fs.readFileSync('/etc/pki/tls/private/masterptn.org.key', 'utf8');
+	certificate = fs.readFileSync('/etc/pki/tls/certs/masterptn.org.crt', 'utf8');
+	credentials = {key: privateKey, cert: certificate};
 }
 
 
-const dataPath = './data/data.json';
+const dataPath = '../data/data.json';
 const app = express();
 
 const getData = () => {
@@ -68,7 +71,7 @@ app.post("/post-data/:id", (req, res) => {
 // 	console.log(`Server listening on ${PORT}`);
 // });
 
-if (devMode === false) {
+if (!devMode) {
 	const httpsServer = https.createServer(credentials, app);
 	httpsServer.listen(3000, () => {
 		console.log('Server listening on 3000');
