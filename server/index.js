@@ -9,13 +9,12 @@ const corsOptions ={
    optionSuccessStatus: 200,
 };
 // const http = require("http");
-const https = require("https");
-const privateKey = fs.readFileSync('/etc/pki/tls/private/masterptn.org.key', 'utf8');
-const certificate = fs.readFileSync('/etc/pki/tls/certs/masterptn.org.crt', 'utf8');
-// const bundle = [fs.readFileSync('/etc/pki/tls/certs/chain.crt', 'utf8'), fs.readFileSync('/etc/pki/tls/certs/fullchain.crt', 'utf8')];
-const credentials = {key: privateKey, cert: certificate};
+// const https = require("https");
+// const privateKey = fs.readFileSync('/etc/pki/tls/private/masterptn.org.key', 'utf8');
+// const certificate = fs.readFileSync('/etc/pki/tls/certs/masterptn.org.crt', 'utf8');
+// const credentials = {key: privateKey, cert: certificate};
 
-const dataPath = '../data/data.json';
+const dataPath = './data/data.json';
 const app = express();
 
 const getData = () => {
@@ -34,6 +33,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
 // routes
+app.get("/get-data/:id", (req, res) => {
+	const dateId = req.params['id'];
+	const data = getData();
+	const entry = data[dateId];
+	if (entry) {
+		res.send(entry);
+	} else {
+		res.send({ entry_found: false });
+	}
+});
+
 app.get("/get-data", (req, res) => {
 	const data = getData();
 	res.send(data);
@@ -41,10 +51,10 @@ app.get("/get-data", (req, res) => {
 });
 
 app.post("/post-data/:id", (req, res) => {
-	const accountId = req.params['id'];
+	const dateId = req.params['id'];
 	let existingData = getData();
 	// let newData = [...req.body, ...existingData];
-	existingData[accountId] = req.body;
+	existingData[dateId] = req.body;
 	saveData(existingData);
 	res.send(existingData);
 });
@@ -54,11 +64,11 @@ app.post("/post-data/:id", (req, res) => {
 // 	console.log(`Server listening on ${PORT}`);
 // });
 
-const httpsServer = https.createServer(credentials, app);
-httpsServer.listen(3000, () => {
-	console.log('Server listening on 3000');
-});
-
-// app.listen(PORT, () => {
-// 	console.log(`Server listening on ${PORT}`);
+// const httpsServer = https.createServer(credentials, app);
+// httpsServer.listen(3000, () => {
+// 	console.log('Server listening on 3000');
 // });
+
+app.listen(PORT, () => {
+	console.log(`Server listening on ${PORT}`);
+});
