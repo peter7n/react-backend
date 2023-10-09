@@ -1,0 +1,21 @@
+{
+	"20231001": {
+		"date": "20231001",
+		"nutrition": 2,
+		"nutrition_noncompliant": [
+			{ "points": -1, "food": "testabc" },
+			{ "points": -1, "food": "testxyz" },
+			{ "points": -1, "food": "test 3" }
+		],
+		"exercise": 5,
+		"exercise_notes": "Test data 2",
+		"mobilize": 5,
+		"sleep": 5,
+		"hydrate": 0,
+		"wellbeing": 5,
+		"wellbeing_notes": "Test data 2",
+		"reflect": 0,
+		"reflect_notes": "Test data 2",
+		"total": 22
+	}
+}
