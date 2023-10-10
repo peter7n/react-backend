@@ -20,8 +20,8 @@ if (!devMode) {
 	credentials = {key: privateKey, cert: certificate};
 }
 
-
 const dataPath = './data/data.json';
+const dataPath2 = './data/data2.json';
 const app = express();
 
 const getData = () => {
@@ -29,9 +29,19 @@ const getData = () => {
 	return JSON.parse(jsonData);
 }
 
+const getData2 = () => {
+	const jsonData = fs.readFileSync(dataPath2);
+	return JSON.parse(jsonData);
+}
+
 const saveData = (data) => {
 	const stringifyData = JSON.stringify(data);
 	fs.writeFileSync(dataPath, stringifyData);
+}
+
+const saveData2 = (data) => {
+	const stringifyData = JSON.stringify(data);
+	fs.writeFileSync(dataPath2, stringifyData);
 }
 
 // middleware
@@ -51,25 +61,42 @@ app.get("/get-data/:id", (req, res) => {
 	}
 });
 
+app.get("/get-data-2/:id", (req, res) => {
+	const dateId = req.params['id'];
+	const data = getData2();
+	const entry = data[dateId];
+	if (entry) {
+		res.send(entry);
+	} else {
+		res.send({ entry_found: false });
+	}
+});
+
 app.get("/get-data", (req, res) => {
 	const data = getData();
 	res.send(data);
-	// res.json({ message: "Hello from server!" });
+});
+
+app.get("/get-data-2", (req, res) => {
+	const data = getData2();
+	res.send(data);
 });
 
 app.post("/post-data/:id", (req, res) => {
 	const dateId = req.params['id'];
 	let existingData = getData();
-	// let newData = [...req.body, ...existingData];
 	existingData[dateId] = req.body;
 	saveData(existingData);
 	res.send(existingData);
 });
 
-// const httpServer = http.createServer(app);
-// httpServer.listen(PORT, () => {
-// 	console.log(`Server listening on ${PORT}`);
-// });
+app.post("/post-data-2/:id", (req, res) => {
+	const dateId = req.params['id'];
+	let existingData = getData2();
+	existingData[dateId] = req.body;
+	saveData2(existingData);
+	res.send(existingData);
+});
 
 if (!devMode) {
 	const httpsServer = https.createServer(credentials, app);
